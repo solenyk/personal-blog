@@ -1,10 +1,10 @@
-package com.kopchak.authserver;
+package com.kopchak.resourceserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AuthserverApplicationTests {
+class ResourceServerApplicationTests {
 
 	@Test
 	void contextLoads() {

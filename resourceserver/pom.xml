@@ -9,9 +9,9 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.kopchak</groupId>
-	<artifactId>authserver</artifactId>
+	<artifactId>resourceserver</artifactId>
 	<version>1.0.0</version>
-	<name>authserver</name>
+	<name>resourceserver</name>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -22,7 +22,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -32,6 +36,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
