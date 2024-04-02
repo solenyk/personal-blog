@@ -1,0 +1,10 @@
+version: '1'
+
+services:
+  db:
+    image: postgres:14.2-alpine3.15
+    container_name: postgres
+    environment:
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
