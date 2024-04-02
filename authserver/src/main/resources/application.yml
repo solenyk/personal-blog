@@ -18,4 +18,11 @@ spring:
     database: postgresql
     open-in-view: false
   flyway:
-    locations: classpath:db/migration,classpath:db/callback
+    locations:
+      - classpath:db/migration
+      - classpath:db/callback
+    placeholders:
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_NAME: ${CLIENT_NAME}
+      CLIENT_REDIRECT_URI: ${CLIENT_REDIRECT_URI}
+    placeholderReplacement: true

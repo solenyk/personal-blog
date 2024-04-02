@@ -1,0 +1,6 @@
+INSERT INTO oauth2_registered_client(id, client_id, client_secret, client_name, client_authentication_methods,
+                                     authorization_grant_types, redirect_uris, client_settings, token_settings)
+VALUES ('cedacf61-36a7-422e-aa7e-d410469dc9ac', '${CLIENT_ID}', '$2a$10$5fgKDs0ts1w8L1VTZ6JrYuA6rGUg5QAR6iWmrgmyzlk8NNcKboIr2',
+        '${CLIENT_NAME}', 'client_secret_basic', 'refresh_token,authorization_code', '${CLIENT_REDIRECT_URI}',
+        ' {"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":false}',
+        '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":false,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",18000.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",36000.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",1200.000000000],"settings.token.device-code-time-to-live":["java.time.Duration",300.000000000]}');
