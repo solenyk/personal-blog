@@ -1,0 +1,22 @@
+server:
+  port: 8090
+logging:
+  level:
+    root: INFO
+    com.example.demo_resource_server: DEBUG
+    org.springframework.jdbc: DEBUG
+    org.springframework.security: trace
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${JWK_SET_URI}
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
