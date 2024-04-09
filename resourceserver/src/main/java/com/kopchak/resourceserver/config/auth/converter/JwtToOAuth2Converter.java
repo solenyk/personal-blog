@@ -1,6 +1,6 @@
-package com.kopchak.resourceserver.service;
+package com.kopchak.resourceserver.config.auth.converter;
 
-import com.kopchak.resourceserver.domain.AppUser;
+import com.kopchak.resourceserver.config.auth.principal.AuthPrincipal;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
@@ -22,8 +22,8 @@ public class JwtToOAuth2Converter implements Converter<Jwt, OAuth2Authentication
 
     @Override
     public OAuth2AuthenticationToken convert(@NonNull Jwt jwt) {
-        AppUser user = new AppUser(getClientName(jwt), getName(jwt), getAuthorities(jwt));
-        return new OAuth2AuthenticationToken(user, user.getAuthorities(), user.getOauth2ClientName());
+        AuthPrincipal user = new AuthPrincipal(getClientName(jwt), getName(jwt), getAuthorities(jwt));
+        return new OAuth2AuthenticationToken(user, user.authorities(), user.oauth2ClientName());
     }
 
     public String getClientName(Jwt jwt) {

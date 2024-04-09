@@ -1,4 +1,4 @@
-package com.kopchak.resourceserver.domain;
+package com.kopchak.resourceserver.config.auth.principal;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,16 +10,8 @@ import java.util.Collection;
 import java.util.Map;
 
 @Getter
-public class AppUser implements OidcUser {
-    private final String oauth2ClientName;
-    private final String principalName;
-    private final Collection<? extends GrantedAuthority> authorities;
-
-    public AppUser(String oauth2ClientName, String principalName, Collection<? extends GrantedAuthority> authorities) {
-        this.oauth2ClientName = oauth2ClientName;
-        this.principalName = principalName;
-        this.authorities = authorities;
-    }
+public record AuthPrincipal(String oauth2ClientName, String principalName,
+                            Collection<? extends GrantedAuthority> authorities) implements OidcUser {
 
     @Override
     public String getName() {

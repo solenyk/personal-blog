@@ -1,8 +1,8 @@
 package com.kopchak.resourceserver.config;
 
-import com.kopchak.resourceserver.service.CustomOAuth2UserService;
-import com.kopchak.resourceserver.service.CustomOidcUserService;
-import com.kopchak.resourceserver.service.JwtToOAuth2Converter;
+import com.kopchak.resourceserver.config.auth.sevice.CustomOAuth2UserService;
+import com.kopchak.resourceserver.config.auth.sevice.CustomOidcUserService;
+import com.kopchak.resourceserver.config.auth.converter.JwtToOAuth2Converter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

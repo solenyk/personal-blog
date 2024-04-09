@@ -1,6 +1,6 @@
-package com.kopchak.resourceserver.service;
+package com.kopchak.resourceserver.config.auth.sevice;
 
-import com.kopchak.resourceserver.domain.AppUser;
+import com.kopchak.resourceserver.config.auth.principal.AuthPrincipal;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -32,6 +32,6 @@ public class CustomOidcUserService extends OidcUserService {
         for (String scope : token.getScopes()) {
             authorities.add(new SimpleGrantedAuthority("SCOPE_" + scope));
         }
-        return new AppUser(clientName, user.getName(), authorities);
+        return new AuthPrincipal(clientName, user.getName(), authorities);
     }
 }
