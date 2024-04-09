@@ -2,17 +2,16 @@ package com.kopchak.authserver.dto.user;
 
 import com.kopchak.authserver.exception.validation.ValidationStepTwo;
 import jakarta.validation.GroupSequence;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @GroupSequence({UserRegistrationDto.class, ValidationStepTwo.class})
 public record UserRegistrationDto(
-        @NotBlank(message = "Invalid email: email is empty")
-        @Email(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+" +
-                "(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
-                message = "Invalid email: email '${validatedValue}' format is incorrect",
-                groups = ValidationStepTwo.class) String email,
+        @NotBlank(message = "Invalid username: username is empty")
+        @Pattern(regexp = "^(?=[a-z])[_\\da-z]{2,}$",
+                message = "Invalid username: username must start with a lowercase letter, consist of at least " +
+                        "3 characters and can only contain lowercase letters, digits, and underscores.",
+                groups = ValidationStepTwo.class) String username,
 
 
         @NotBlank(message = "Invalid password: password is empty")

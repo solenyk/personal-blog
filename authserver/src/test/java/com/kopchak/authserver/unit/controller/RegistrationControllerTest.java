@@ -7,6 +7,7 @@ import com.kopchak.authserver.dto.error.MethodArgumentNotValidExceptionDto;
 import com.kopchak.authserver.dto.user.UserRegistrationDto;
 import com.kopchak.authserver.exception.exception.UsernameNotFoundException;
 import com.kopchak.authserver.service.UserService;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,10 +40,10 @@ class RegistrationControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private static final String VALID_EMAIL = "user@gmail.com";
+    private static final String VALID_USERNAME = "iryna_kopchak123";
     private static final String URL = "http://localhost/api/v1/register";
     private static final UserRegistrationDto validUserRegistrationDto =
-            new UserRegistrationDto(VALID_EMAIL, "P@ssword123");
+            new UserRegistrationDto(VALID_USERNAME, "P@ssword123");
 
     @Test
     public void registerUser_ReturnsCreatedStatus() throws Exception {
@@ -58,13 +59,8 @@ class RegistrationControllerTest {
 
     @Test
     public void registerUser_MethodArgumentNotValidException_ReturnsBadRequestStatusAndMethodArgumentNotValidExceptionDto() throws Exception {
-        var invalidUserRegistrationDto = new UserRegistrationDto("username", "password");
-        Map<String, String> fieldsErrorDetails = new LinkedHashMap<>() {{
-            put("password", "Invalid password: password must contain at least 1 number (0-9), 1 uppercase letter, " +
-                    "1 lowercase letter, 1 non-alphanumeric number and be 8-16 characters with no space");
-            put("email", "Invalid email: email 'username' format is incorrect");
-        }};
-        var expectedMethodArgNotValidExceptionDto = new MethodArgumentNotValidExceptionDto(URL, fieldsErrorDetails);
+        var invalidUserRegistrationDto = new UserRegistrationDto("123", "password");
+        var expectedMethodArgNotValidExceptionDto = getMethodArgumentNotValidExceptionDto();
 
 
         doNothing().when(userService).registerUser(eq(invalidUserRegistrationDto));
@@ -80,10 +76,10 @@ class RegistrationControllerTest {
 
     @Test
     public void registerUser_UsernameNotFoundException_ReturnsNotFoundStatusAndErrorInfoDto() throws Exception {
-        String errorMsg = String.format("User with username: %s is not found!", VALID_EMAIL);
+        String errorMsg = String.format("User with username: %s is not found!", VALID_USERNAME);
         ErrorInfoDto expectedErrorInfoDto = new ErrorInfoDto(URL, errorMsg);
 
-        doThrow(new UsernameNotFoundException(VALID_EMAIL)).when(userService).registerUser(eq(validUserRegistrationDto));
+        doThrow(new UsernameNotFoundException(VALID_USERNAME)).when(userService).registerUser(eq(validUserRegistrationDto));
 
         ResultActions response = mockMvc.perform(post("/api/v1/register")
                 .content(objectMapper.writeValueAsString(validUserRegistrationDto))
@@ -92,5 +88,16 @@ class RegistrationControllerTest {
         response.andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedErrorInfoDto)))
                 .andDo(MockMvcResultHandlers.print());
+    }
+
+    @NotNull
+    private static MethodArgumentNotValidExceptionDto getMethodArgumentNotValidExceptionDto() {
+        Map<String, String> fieldsErrorDetails = new LinkedHashMap<>() {{
+            put("username", "Invalid username: username must start with a lowercase letter, consist of at least 3 " +
+                    "characters and can only contain lowercase letters, digits, and underscores.");
+            put("password", "Invalid password: password must contain at least 1 number (0-9), 1 uppercase letter, " +
+                    "1 lowercase letter, 1 non-alphanumeric number and be 8-16 characters with no space");
+        }};
+        return new MethodArgumentNotValidExceptionDto(URL, fieldsErrorDetails);
     }
 }
