@@ -25,7 +25,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void registerUser(UserRegistrationDto userRegistrationDto) {
-        String email = userRegistrationDto.email();
+        String email = userRegistrationDto.username();
         if (userRepository.findByUsername(email).isPresent()) {
             throw new UsernameAlreadyExistException(email);
         }
