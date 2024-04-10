@@ -5,7 +5,7 @@ import com.kopchak.authserver.controller.RegistrationController;
 import com.kopchak.authserver.dto.error.ErrorInfoDto;
 import com.kopchak.authserver.dto.error.MethodArgumentNotValidExceptionDto;
 import com.kopchak.authserver.dto.user.UserRegistrationDto;
-import com.kopchak.authserver.exception.exception.UsernameNotFoundException;
+import com.kopchak.authserver.exception.exception.UsernameAlreadyExistException;
 import com.kopchak.authserver.service.UserService;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,6 @@ class RegistrationControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
     private static final String VALID_USERNAME = "iryna_kopchak123";
     private static final String URL = "http://localhost/api/v1/register";
     private static final UserRegistrationDto validUserRegistrationDto =
@@ -75,17 +74,17 @@ class RegistrationControllerTest {
     }
 
     @Test
-    public void registerUser_UsernameNotFoundException_ReturnsNotFoundStatusAndErrorInfoDto() throws Exception {
-        String errorMsg = String.format("User with username: %s is not found!", VALID_USERNAME);
+    public void registerUser_UsernameAlreadyExistException_ReturnsConflictStatusAndErrorInfoDto() throws Exception {
+        String errorMsg = String.format("The user with the username: %s already exist!", VALID_USERNAME);
         ErrorInfoDto expectedErrorInfoDto = new ErrorInfoDto(URL, errorMsg);
 
-        doThrow(new UsernameNotFoundException(VALID_USERNAME)).when(userService).registerUser(eq(validUserRegistrationDto));
+        doThrow(new UsernameAlreadyExistException(VALID_USERNAME)).when(userService).registerUser(eq(validUserRegistrationDto));
 
         ResultActions response = mockMvc.perform(post("/api/v1/register")
                 .content(objectMapper.writeValueAsString(validUserRegistrationDto))
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(MockMvcResultMatchers.status().isNotFound())
+        response.andExpect(MockMvcResultMatchers.status().isConflict())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedErrorInfoDto)))
                 .andDo(MockMvcResultHandlers.print());
     }
