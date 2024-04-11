@@ -26,3 +26,5 @@ spring:
       CLIENT_NAME: ${CLIENT_NAME}
       CLIENT_REDIRECT_URI: ${CLIENT_REDIRECT_URI}
     placeholderReplacement: true
+springdoc:
+  override-with-generic-response: false
