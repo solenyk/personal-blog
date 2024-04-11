@@ -52,10 +52,11 @@ public class AuthorizationServerConfiguration {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .securityMatcher("/api/v1/register", "/login", "/logout")
+                .securityMatcher("/api/v1/register", "/login", "/logout", "/swagger-ui/**", "/v3/api-docs/**")
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(withDefaults())
